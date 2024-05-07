@@ -34,6 +34,7 @@
  */
 
 use Glpi\Application\View\TemplateRenderer;
+use Glpi\Plugin\Hooks;
 
 /**
  * @since 9.5.0
@@ -1018,6 +1019,11 @@ class Impact extends CommonGLPI
                 continue;
             }
 
+            $plugin_icon = Plugin::doHookFunction(Hooks::SET_IMPACT_ICON, $itemtype);
+            if ($plugin_icon && is_string($plugin_icon)) {
+                $icon = $plugin_icon;
+            }
+
            // Skip if not enabled
             if (!self::isEnabled($itemtype)) {
                 continue;
@@ -1299,6 +1305,12 @@ class Impact extends CommonGLPI
 
        // Get web path to the image matching the itemtype from config
         $image_name = $CFG_GLPI["impact_asset_types"][get_class($item)] ?? "";
+
+        $plugin_icon = Plugin::doHookFunction(Hooks::SET_IMPACT_ICON, get_class($item));
+        if ($plugin_icon && is_string($plugin_icon)) {
+            $image_name = $plugin_icon;
+        }
+
         $image_name = self::checkIcon($image_name);
 
        // Define basic data of the new node
