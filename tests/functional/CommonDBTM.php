@@ -1778,7 +1778,7 @@ class CommonDBTM extends DbTestCase
     /**
      * @dataProvider assignableAssetsProvider
      */
-    public function testCanViewAssignableAssets($itemtype)
+    public function testCanViewAssignableItems($itemtype)
     {
         $this->login();
 
@@ -1794,7 +1794,7 @@ class CommonDBTM extends DbTestCase
     /**
      * @dataProvider assignableAssetsProvider
      */
-    public function testCanViewItemAssignableAssets($itemtype)
+    public function testCanViewItemAssignableItems($itemtype)
     {
         $this->login();
 
@@ -1873,7 +1873,7 @@ class CommonDBTM extends DbTestCase
     /**
      * @dataProvider assignableAssetsProvider
      */
-    public function testCanUpdateAssignableAssets($itemtype)
+    public function testCanUpdateAssignableItems($itemtype)
     {
         $this->login();
 
@@ -1889,7 +1889,7 @@ class CommonDBTM extends DbTestCase
     /**
      * @dataProvider assignableAssetsProvider
      */
-    public function testCanUpdateItemAssignableAssets($itemtype)
+    public function testCanUpdateItemAssignableItems($itemtype)
     {
         $this->login();
 

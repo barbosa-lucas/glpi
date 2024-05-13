@@ -39,7 +39,7 @@ use Glpi\Asset\AssetDefinitionManager;
 use Glpi\DBAL\QueryExpression;
 use Glpi\DBAL\QueryFunction;
 use Glpi\Features\DCBreadcrumb;
-use Glpi\Features\AssignableAsset;
+use Glpi\Features\AssignableItem;
 use Glpi\Plugin\Hooks;
 use Glpi\SocketModel;
 
@@ -2742,6 +2742,13 @@ JAVASCRIPT;
 
         $where = $item->getSystemSQLCriteria();
 
+        if (Toolbox::hasTrait($post['itemtype'], AssignableItem::class)) {
+            $visibility_criteria = $post['itemtype']::getAssignableVisiblityCriteria();
+            if (count($visibility_criteria)) {
+                $where[] = $visibility_criteria;
+            }
+        }
+
         if ($item->maybeDeleted()) {
             $where["$table.is_deleted"] = 0;
         }
@@ -3401,10 +3408,6 @@ JAVASCRIPT;
                     }
             }
 
-            if (Toolbox::hasTrait($post['itemtype'], AssignableAsset::class)) {
-                $where[] = $post['itemtype']::getAssignableVisiblityCriteria();
-            }
-
             $criteria = array_merge(
                 $criteria,
                 [
@@ -3805,8 +3808,15 @@ JAVASCRIPT;
             return;
         }
 
-        $system_sql = $post['itemtype']::getSystemSQLCriteria();
-        $where = !empty($system_sql) ? [$system_sql] : [];
+        $where = $item->getSystemSQLCriteria();
+
+        if (Toolbox::hasTrait($post['itemtype'], AssignableItem::class)) {
+            $visibility_criteria = $post['itemtype']::getAssignableVisiblityCriteria();
+            if (count($visibility_criteria)) {
+                $where[] = $visibility_criteria;
+            }
+        }
+
         if (isset($post['used']) && !empty($post['used'])) {
             $where['NOT'] = ['id' => $post['used']];
         }
@@ -3874,10 +3884,6 @@ JAVASCRIPT;
         if (!isset($post['page'])) {
             $post['page']       = 1;
             $post['page_limit'] = $CFG_GLPI['dropdown_max'];
-        }
-
-        if (Toolbox::hasTrait($post['itemtype'], AssignableAsset::class)) {
-            $where[] = $post['itemtype']::getAssignableVisiblityCriteria();
         }
 
         $start = (int) (($post['page'] - 1) * $post['page_limit']);

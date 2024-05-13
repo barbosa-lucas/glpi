@@ -715,99 +715,28 @@ $RELATION = [
     ],
 
     'glpi_groups' => [
-        'glpi_appliances'            => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_assets_assets'         => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_cartridgeitems'        => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_certificates'          => [
-            'groups_id_tech',
-            'groups_id',
-        ],
         '_glpi_changes_groups'       => 'groups_id',
         'glpi_changetasks'           => 'groups_id_tech',
         'glpi_clusters'              => 'groups_id_tech',
-        'glpi_computers'             => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_consumableitems'       => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_databaseinstances'     => [
-            'groups_id_tech',
-            'groups_id',
-        ],
         'glpi_domains'               => 'groups_id_tech',
         'glpi_domainrecords'         => 'groups_id_tech',
         'glpi_enclosures'            => 'groups_id_tech',
         'glpi_groups'                => 'groups_id',
+        '_glpi_groups_items'         => 'groups_id',
         '_glpi_groups_knowbaseitems' => 'groups_id',
         '_glpi_groups_problems'      => 'groups_id',
         '_glpi_groups_reminders'     => 'groups_id',
         '_glpi_groups_rssfeeds'      => 'groups_id',
         '_glpi_groups_tickets'       => 'groups_id',
         '_glpi_groups_users'         => 'groups_id',
-        'glpi_items_devicesimcards'  => [
-            'groups_id_tech',
-            'groups_id',
-        ],
         'glpi_itilcategories'        => 'groups_id',
-        'glpi_lines'                 => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_monitors'              => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_networkequipments'     => [
-            'groups_id_tech',
-            'groups_id',
-        ],
         'glpi_passivedcequipments'   => 'groups_id_tech',
         'glpi_pdus'                  => 'groups_id_tech',
-        'glpi_peripherals'           => [
-            'groups_id_tech',
-            'groups_id',
-        ],
         'glpi_planningexternalevents' => 'groups_id',
-        'glpi_phones'                 => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_printers'               => [
-            'groups_id_tech',
-            'groups_id',
-        ],
         'glpi_problemtasks'           => 'groups_id_tech',
         'glpi_projects'               => 'groups_id',
-        'glpi_racks'                  => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_softwarelicenses'       => [
-            'groups_id_tech',
-            'groups_id',
-        ],
-        'glpi_softwares'              => [
-            'groups_id_tech',
-            'groups_id',
-        ],
         'glpi_tasktemplates'          => 'groups_id_tech',
         'glpi_tickettasks'            => 'groups_id_tech',
-        'glpi_unmanageds'             => [
-            'groups_id_tech',
-            'groups_id',
-        ],
         'glpi_users'                  => 'groups_id',
         'glpi_itilvalidationtemplates_targets' => 'groups_id',
     ],
@@ -1870,4 +1799,13 @@ foreach (Asset_PeripheralAsset::getPeripheralHostItemtypes() as $peripheralhost_
 
     $define_mapping_entry($source_table, $target_table_key);
     $RELATION[$source_table][$target_table_key][] = ['itemtype_asset', 'items_id_asset'];
+}
+
+// Multiple groups assignments
+$assignable_itemtypes = array_unique(array_merge($CFG_GLPI['linkgroup_types'], $CFG_GLPI['linkgroup_tech_types']));
+foreach ($assignable_itemtypes as $assignable_itemtype) {
+    $source_table_key = $assignable_itemtype::getTable();
+
+    $define_mapping_entry($source_table_key, '_glpi_groups_items');
+    $RELATION[$source_table_key]['_glpi_groups_items'][] = ['itemtype', 'items_id'];
 }

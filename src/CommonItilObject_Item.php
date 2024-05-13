@@ -858,12 +858,27 @@ abstract class CommonItilObject_Item extends CommonDBRelation
                         ) {
                             $itemtable  = getTableForItemType($itemtype);
                             $criteria = [
-                                'FROM'   => $itemtable,
-                                'WHERE'  => [
-                                    'groups_id' => $groups
+                                'SELECT'  => [$itemtable . '.*'],
+                                'FROM'    => $itemtable,
+                                'LEFT JOIN' => [
+                                    Group_Item::getTable() => [
+                                        'ON' => [
+                                            $itemtable => 'id',
+                                            Group_Item::getTable() => 'items_id', [
+                                                'AND' => [
+                                                    Group_Item::getTable() . '.itemtype' => $itemtype
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ],
+                                'WHERE'   => [
+                                    Group_Item::getTable() . '.type' => Group_Item::GROUP_TYPE_NORMAL,
+                                    Group_Item::getTable() . '.groups_id' => $groups
                                 ] + getEntitiesRestrictCriteria($itemtable, '', $entity_restrict, $item->maybeRecursive())
                                   + $itemtype::getSystemSQLCriteria(),
-                                'ORDER'  => $item->getNameField()
+                                'GROUPBY' => $itemtable . '.id',
+                                'ORDER'   => $item->getNameField()
                             ];
 
                             if ($item->maybeDeleted()) {
