@@ -717,10 +717,6 @@ $RELATION = [
     'glpi_groups' => [
         '_glpi_changes_groups'       => 'groups_id',
         'glpi_changetasks'           => 'groups_id_tech',
-        'glpi_clusters'              => 'groups_id_tech',
-        'glpi_domains'               => 'groups_id_tech',
-        'glpi_domainrecords'         => 'groups_id_tech',
-        'glpi_enclosures'            => 'groups_id_tech',
         'glpi_groups'                => 'groups_id',
         '_glpi_groups_items'         => 'groups_id',
         '_glpi_groups_knowbaseitems' => 'groups_id',
@@ -730,8 +726,6 @@ $RELATION = [
         '_glpi_groups_tickets'       => 'groups_id',
         '_glpi_groups_users'         => 'groups_id',
         'glpi_itilcategories'        => 'groups_id',
-        'glpi_passivedcequipments'   => 'groups_id_tech',
-        'glpi_pdus'                  => 'groups_id_tech',
         'glpi_planningexternalevents' => 'groups_id',
         'glpi_problemtasks'           => 'groups_id_tech',
         'glpi_projects'               => 'groups_id',
@@ -1468,7 +1462,10 @@ $RELATION = [
             'users_id_tech',
             'users_id',
         ],
-        'glpi_cables'                   => 'users_id_tech',
+        'glpi_cables'                   => [
+            'users_id_tech',
+            'users_id',
+        ],
         'glpi_cartridgeitems'           => [
             'users_id_tech',
             'users_id',
@@ -1491,7 +1488,10 @@ $RELATION = [
             'users_id',
             'users_id_validate',
         ],
-        'glpi_clusters'                 => 'users_id_tech',
+        'glpi_clusters'                 => [
+            'users_id_tech',
+            'users_id',
+        ],
         'glpi_computers'                => [
             'users_id_tech',
             'users_id',
@@ -1507,11 +1507,20 @@ $RELATION = [
             'users_id',
         ],
         '_glpi_displaypreferences'      => 'users_id',
-        'glpi_domains'                  => 'users_id_tech',
-        'glpi_domainrecords'            => 'users_id_tech',
+        'glpi_domains'                  => [
+            'users_id_tech',
+            'users_id',
+        ],
+        'glpi_domainrecords'            => [
+            'users_id_tech',
+            'users_id',
+        ],
         'glpi_documents'                => 'users_id',
         'glpi_documents_items'          => 'users_id',
-        'glpi_enclosures'               => 'users_id_tech',
+        'glpi_enclosures'               => [
+            'users_id_tech',
+            'users_id',
+        ],
         'glpi_forms_answerssets'        => 'users_id',
         '_glpi_groups_users'            => 'users_id',
         'glpi_items_devicesimcards'     => [
@@ -1552,8 +1561,14 @@ $RELATION = [
         ],
         'glpi_notimportedemails'        => 'users_id',
         '_glpi_objectlocks'             => 'users_id',
-        'glpi_passivedcequipments'      => 'users_id_tech',
-        'glpi_pdus'                     => 'users_id_tech',
+        'glpi_passivedcequipments'      => [
+            'users_id_tech',
+            'users_id',
+        ],
+        'glpi_pdus'                     => [
+            'users_id_tech',
+            'users_id',
+        ],
         'glpi_peripherals'              => [
             'users_id_tech',
             'users_id',
@@ -1802,7 +1817,7 @@ foreach (Asset_PeripheralAsset::getPeripheralHostItemtypes() as $peripheralhost_
 }
 
 // Multiple groups assignments
-$assignable_itemtypes = array_unique(array_merge($CFG_GLPI['linkgroup_types'], $CFG_GLPI['linkgroup_tech_types']));
+$assignable_itemtypes = $CFG_GLPI['assignable_types'];
 foreach ($assignable_itemtypes as $assignable_itemtype) {
     $source_table_key = $assignable_itemtype::getTable();
 

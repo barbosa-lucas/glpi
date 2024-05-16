@@ -330,19 +330,9 @@ trait AssignableItem
      */
     final public function getGroupTypes(): array
     {
-        /**
-         * @var array $CFG_GLPI
-         */
-        global $CFG_GLPI;
-
-        $types = [];
-        if (in_array(static::class, $CFG_GLPI['linkgroup_types'], true)) {
-            $types[] = Group_Item::GROUP_TYPE_NORMAL;
-        }
-        if (in_array(static::class, $CFG_GLPI['linkgroup_tech_types'], true)) {
-            $types[] = Group_Item::GROUP_TYPE_TECH;
-        }
-
-        return $types;
+        return [
+            Group_Item::GROUP_TYPE_NORMAL,
+            Group_Item::GROUP_TYPE_TECH,
+        ];
     }
 }

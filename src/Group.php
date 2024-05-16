@@ -544,7 +544,7 @@ class Group extends CommonTreeDropdown
          */
         global $DB, $CFG_GLPI;
 
-        $types  = $tech ? $CFG_GLPI['linkgroup_tech_types'] : $CFG_GLPI['linkgroup_types'];
+        $types  = $CFG_GLPI['assignable_types'];
         $ufield = $tech ? 'users_id_tech' : 'users_id';
 
         // include item of child groups ?

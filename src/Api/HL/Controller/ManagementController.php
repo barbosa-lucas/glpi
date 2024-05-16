@@ -197,10 +197,9 @@ final class ManagementController extends AbstractController
                 $schemas[$m_name]['properties']['environment'] = self::getDropdownTypeSchema($env_class);
             }
 
-            if (in_array($m_class, $CFG_GLPI['linkuser_tech_types'], true)) {
+            if (in_array($m_class, $CFG_GLPI['assignable_types'], true)) {
                 $schemas[$m_name]['properties']['user_tech'] = self::getDropdownTypeSchema(class: User::class, field: 'users_id_tech', full_schema: 'User');
-            }
-            if (in_array($m_class, $CFG_GLPI['linkgroup_tech_types'], true)) {
+
                 $schemas[$m_name]['properties']['group_tech'] = [
                     'type' => Doc\Schema::TYPE_ARRAY,
                     'items' => [
@@ -230,11 +229,9 @@ final class ManagementController extends AbstractController
                         ]
                     ]
                 ];
-            }
-            if (in_array($m_class, $CFG_GLPI['linkuser_types'], true)) {
+
                 $schemas[$m_name]['properties']['user'] = self::getDropdownTypeSchema(class: User::class, full_schema: 'User');
-            }
-            if (in_array($m_class, $CFG_GLPI['linkgroup_types'], true)) {
+
                 $schemas[$m_name]['properties']['group'] = [
                     'type' => Doc\Schema::TYPE_ARRAY,
                     'items' => [

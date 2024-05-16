@@ -259,9 +259,9 @@ $CFG_GLPI["reservation_types"]            = ['Computer', 'Monitor', 'NetworkEqui
     'Peripheral', 'Phone', 'Printer', 'Software', 'Rack'
 ];
 
-// FIXME: Merge these configurations
-$CFG_GLPI["linkuser_types"]               = [
+$CFG_GLPI["assignable_types"] = [
     'Appliance',
+    'Cable',
     'CartridgeItem',
     'Certificate',
     'Cluster',
@@ -275,6 +275,8 @@ $CFG_GLPI["linkuser_types"]               = [
     'Line',
     'Monitor',
     'NetworkEquipment',
+    'PassiveDCEquipment',
+    'PDU',
     'Peripheral',
     'Phone',
     'Printer',
@@ -283,9 +285,11 @@ $CFG_GLPI["linkuser_types"]               = [
     'SoftwareLicense',
     'Unmanaged',
 ];
-$CFG_GLPI["linkgroup_types"]              = $CFG_GLPI["linkuser_types"];
-$CFG_GLPI["linkuser_tech_types"]          = $CFG_GLPI["linkuser_types"];
-$CFG_GLPI["linkgroup_tech_types"]         = $CFG_GLPI["linkuser_types"];
+// FIXME: Deprecate these configurations
+$CFG_GLPI["linkuser_types"]         = $CFG_GLPI["assignable_types"];
+$CFG_GLPI["linkgroup_types"]        = $CFG_GLPI["assignable_types"];
+$CFG_GLPI["linkuser_tech_types"]    = $CFG_GLPI["assignable_types"];
+$CFG_GLPI["linkgroup_tech_types"]   = $CFG_GLPI["assignable_types"];
 
 $CFG_GLPI["location_types"]               = ['Budget', 'CartridgeItem', 'ConsumableItem',
     'Computer', 'Monitor', "Glpi\\Socket",

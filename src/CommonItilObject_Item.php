@@ -763,7 +763,7 @@ abstract class CommonItilObject_Item extends CommonDBRelation
             $devices    = [];
 
             // My items
-            foreach ($CFG_GLPI["linkuser_types"] as $itemtype) {
+            foreach ($CFG_GLPI["assignable_types"] as $itemtype) {
                 if (
                     ($item = getItemForItemtype($itemtype))
                     && CommonITILObject::isPossibleToAssignType($itemtype)
@@ -851,7 +851,7 @@ abstract class CommonItilObject_Item extends CommonDBRelation
                         $groups = array_merge($groups, $a_groups);
                     }
 
-                    foreach ($CFG_GLPI["linkgroup_types"] as $itemtype) {
+                    foreach ($CFG_GLPI["assignable_types"] as $itemtype) {
                         if (
                             ($item = getItemForItemtype($itemtype))
                             && CommonITILObject::isPossibleToAssignType($itemtype)

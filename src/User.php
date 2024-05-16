@@ -5138,13 +5138,10 @@ JAVASCRIPT;
         $start       = intval($_GET["start"] ?? 0);
 
         if ($tech) {
-            $itemtypes = array_merge($CFG_GLPI['linkuser_tech_types'], $CFG_GLPI['linkgroup_tech_types']);
             $field_user  = 'users_id_tech';
         } else {
-            $itemtypes = array_merge($CFG_GLPI['linkuser_types'], $CFG_GLPI['linkgroup_types']);
             $field_user  = 'users_id';
         }
-        $itemtypes = array_unique($itemtypes);
 
         $groups      = [];
 
@@ -5188,7 +5185,7 @@ JAVASCRIPT;
 
         $entries = [];
 
-        foreach ($itemtypes as $itemtype) {
+        foreach ($CFG_GLPI['assignable_types'] as $itemtype) {
             if (!($item = getItemForItemtype($itemtype))) {
                 continue;
             }

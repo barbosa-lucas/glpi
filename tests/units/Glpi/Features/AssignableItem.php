@@ -46,12 +46,10 @@ class AssignableItem extends \DbTestCase
          */
         global $CFG_GLPI;
 
-        foreach (['linkuser_types', 'linkgroup_types', 'linkuser_tech_types', 'linkgroup_tech_types'] as $cfg_key) {
-            foreach ($CFG_GLPI[$cfg_key] as $itemtype) {
-                yield[
-                    'class' => $itemtype,
-                ];
-            }
+        foreach ($CFG_GLPI['assignable_types'] as $itemtype) {
+            yield[
+                'class' => $itemtype,
+            ];
         }
     }
 
@@ -70,14 +68,12 @@ class AssignableItem extends \DbTestCase
          */
         global $CFG_GLPI;
 
-        foreach ($CFG_GLPI['linkgroup_types'] as $itemtype) {
+        foreach ($CFG_GLPI['assignable_types'] as $itemtype) {
             yield[
                 'class' => $itemtype,
                 'type'  => Group_Item::GROUP_TYPE_NORMAL,
             ];
-        }
 
-        foreach ($CFG_GLPI['linkgroup_tech_types'] as $itemtype) {
             yield[
                 'class' => $itemtype,
                 'type'  => Group_Item::GROUP_TYPE_TECH,
