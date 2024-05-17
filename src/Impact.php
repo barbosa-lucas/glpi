@@ -1019,7 +1019,9 @@ class Impact extends CommonGLPI
                 continue;
             }
 
-            $plugin_icon = Plugin::doHookFunction(Hooks::SET_IMPACT_ICON, $itemtype);
+            $item = new $itemtype;
+            $item->getEmpty();
+            $plugin_icon = Plugin::doHookFunction(Hooks::SET_ITEM_IMPACT_ICON, $item);
             if ($plugin_icon && is_string($plugin_icon)) {
                 $icon = $plugin_icon;
             }
@@ -1306,7 +1308,7 @@ class Impact extends CommonGLPI
        // Get web path to the image matching the itemtype from config
         $image_name = $CFG_GLPI["impact_asset_types"][get_class($item)] ?? "";
 
-        $plugin_icon = Plugin::doHookFunction(Hooks::SET_IMPACT_ICON, get_class($item));
+        $plugin_icon = Plugin::doHookFunction(Hooks::SET_ITEM_IMPACT_ICON, $item);
         if ($plugin_icon && is_string($plugin_icon)) {
             $image_name = $plugin_icon;
         }

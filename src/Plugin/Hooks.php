@@ -75,7 +75,6 @@ class Hooks
     const UNLOCK_FIELDS                 = 'unlock_fields';
     const UNDISCLOSED_CONFIG_VALUE      = 'undiscloseConfigValue';
     const FILTER_ACTORS                 = 'filter_actors';
-    const SET_IMPACT_ICON               = 'set_impact_icon';
 
    // Item hooks expecting an 'item' parameter
     const ADD_RECIPIENT_TO_TARGET   = 'add_recipient_to_target';
@@ -99,6 +98,7 @@ class Hooks
     const PRE_ITEM_PURGE            = 'pre_item_purge';
     const PRE_ITEM_RESTORE          = 'pre_item_restore';
     const SHOW_ITEM_STATS           = 'show_item_stats';
+    const SET_ITEM_IMPACT_ICON      = 'set_item_impact_icon';
 
    // Item hooks expecting an array parameter (available keys: item, options)
     const ITEM_TRANSFER           = 'item_transfer';

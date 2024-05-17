@@ -81,7 +81,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     Response::sendError(400, "Missing itemtype or items_id");
                 }
 
-               // Check that the the target asset exist
+               // Check that the target asset exist
                 if (!Impact::assetExist($itemtype, $items_id)) {
                     Response::sendError(400, "Object[class=$itemtype, id=$items_id] doesn't exist");
                 }
