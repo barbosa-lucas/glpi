@@ -1006,7 +1006,7 @@ class CommonDBTM extends CommonGLPI
          */
         global $CFG_GLPI, $DB;
 
-        if (Toolbox::hasTrait(static::class, AssignableItem::class)) {
+        if (in_array(static::class, $CFG_GLPI['assignable_types'], true)) {
             $group_item = new Group_Item();
             $group_item->deleteByCriteria(
                 [

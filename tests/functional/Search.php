@@ -43,7 +43,6 @@ use DbTestCase;
 use Document;
 use Document_Item;
 use Glpi\Asset\Capacity\HasDocumentsCapacity;
-use Glpi\Features\AssignableItem;
 use Group_User;
 use Psr\Log\LogLevel;
 use Ticket;
@@ -1901,10 +1900,8 @@ class Search extends DbTestCase
             'users_id',
             'contact',
             'contact_num',
-            'groups_id',
             'date_mod',
             'manufacturers_id',
-            'groups_id_tech',
             'entities_id',
         ];
 
@@ -1912,10 +1909,6 @@ class Search extends DbTestCase
             $table = getTableForItemType($itemtype);
 
             foreach ($needed_fields as $field) {
-                if (\Toolbox::hasTrait($itemtype, AssignableItem::class) && str_starts_with($field, 'groups_id')) {
-                    // The group fields don't exist in the main table for these assets
-                    continue;
-                }
                 $this->boolean($DB->fieldExists($table, $field))
                  ->isTrue("$table.$field is missing");
             }

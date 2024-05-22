@@ -47,7 +47,7 @@ class AssignableItem extends \DbTestCase
         global $CFG_GLPI;
 
         foreach ($CFG_GLPI['assignable_types'] as $itemtype) {
-            yield[
+            yield $itemtype => [
                 'class' => $itemtype,
             ];
         }
@@ -58,7 +58,7 @@ class AssignableItem extends \DbTestCase
      */
     public function testClassUsesTrait(string $class): void
     {
-        $this->boolean(in_array(\Glpi\Features\AssignableItem::class, class_uses($class, true)));
+        $this->boolean(in_array(\Glpi\Features\AssignableItem::class, class_uses($class), true))->isTrue();
     }
 
     protected function groupAssignableItemtypeProvider(): iterable
@@ -69,12 +69,12 @@ class AssignableItem extends \DbTestCase
         global $CFG_GLPI;
 
         foreach ($CFG_GLPI['assignable_types'] as $itemtype) {
-            yield[
+            yield $itemtype . '-normal' => [
                 'class' => $itemtype,
                 'type'  => Group_Item::GROUP_TYPE_NORMAL,
             ];
 
-            yield[
+            yield $itemtype . '-normal' => [
                 'class' => $itemtype,
                 'type'  => Group_Item::GROUP_TYPE_TECH,
             ];
@@ -85,66 +85,66 @@ class AssignableItem extends \DbTestCase
      * Test adding an item with the groups_id/groups_id_tech field as an array and null.
      * Test updating an item with the groups_id/groups_id_tech field as an array and null.
      *
-     * @dataProvider groupAssignableItemtypeProvider
+     * @dataProvider itemtypeProvider
      */
-    public function testAddAndUpdateMultipleGroups(string $class, int $type): void
+    public function testAddAndUpdateMultipleGroups(string $class): void
     {
         $this->login(); // login to bypass some rights checks (e.g. on domain records)
 
         $input = $this->getMinimalCreationInput($class);
 
-        $field = match ($type) {
-            Group_Item::GROUP_TYPE_NORMAL => 'groups_id',
-            Group_Item::GROUP_TYPE_TECH   => 'groups_id_tech',
-        };
-
         $item_1 = $this->createItem(
             $class,
             $input + [
                 $class::getNameField() => __FUNCTION__ . ' 1',
-                $field                 => [1, 2],
+                'groups_id'            => [1, 2],
+                'groups_id_tech'       => [3],
             ]
         );
-        $this->array($item_1->fields[$field])->isEqualTo([1, 2]);
+        $this->array($item_1->fields['groups_id'])->isEqualTo([1, 2]);
+        $this->array($item_1->fields['groups_id_tech'])->isEqualTo([3]);
 
         $item_2 = $this->createItem(
             $class,
             $input + [
                 $class::getNameField() => __FUNCTION__ . ' 2',
-                $field                 => null,
+                'groups_id'            => null,
+                'groups_id_tech'       => null,
             ]
         );
-        $this->array($item_2->fields[$field])->isEmpty();
+        $this->array($item_2->fields['groups_id'])->isEmpty();
+        $this->array($item_2->fields['groups_id_tech'])->isEmpty();
 
         // Update both items. Asset 1 will have the groups set to null and item 2 will have the groups set to an array.
-        $this->boolean($item_1->update(['id' => $item_1->getID(), $field => null]))->isTrue();
-        $this->array($item_1->fields[$field])->isEmpty();
+        $updated = $item_1->update(['id' => $item_1->getID(), 'groups_id' => null, 'groups_id_tech' => null]);
+        $this->boolean($updated)->isTrue();
+        $this->array($item_1->fields['groups_id'])->isEmpty();
+        $this->array($item_1->fields['groups_id_tech'])->isEmpty();
 
-        $this->boolean($item_2->update(['id' => $item_2->getID(),$field => [5, 6]]))->isTrue();
-        $this->array($item_2->fields[$field])->isEqualTo([5, 6]);
+        $updated = $item_2->update(['id' => $item_2->getID(), 'groups_id' => [5, 6], 'groups_id_tech' => [7]]);
+        $this->boolean($updated)->isTrue();
+        $this->array($item_2->fields['groups_id'])->isEqualTo([5, 6]);
+        $this->array($item_2->fields['groups_id_tech'])->isEqualTo([7]);
 
         // Test updating array to array
-        $this->boolean($item_2->update(['id' => $item_2->getID(), $field => [1, 2]]))->isTrue();
-        $this->array($item_2->fields[$field])->isEqualTo([1, 2]);
+        $updated = $item_2->update(['id' => $item_2->getID(), 'groups_id' => [1, 2], 'groups_id_tech' => [4, 5]]);
+        $this->boolean($updated)->isTrue();
+        $this->array($item_2->fields['groups_id'])->isEqualTo([1, 2]);
+        $this->array($item_2->fields['groups_id_tech'])->isEqualTo([4, 5]);
     }
 
     /**
      * Test the loading item which still have integer values for groups_id/groups_id_tech (0 for no group).
      * The value should be automatically normalized to an array. If the group was '0', the array should be empty.
      *
-     * @dataProvider groupAssignableItemtypeProvider
+     * @dataProvider itemtypeProvider
      */
-    public function testLoadGroupsFromDb(string $class, int $type): void
+    public function testLoadGroupsFromDb(string $class): void
     {
         /** @var \DBmysql $DB */
         global $DB;
 
         $input = $this->getMinimalCreationInput($class);
-
-        $field = match ($type) {
-            Group_Item::GROUP_TYPE_NORMAL => 'groups_id',
-            Group_Item::GROUP_TYPE_TECH   => 'groups_id_tech',
-        };
 
         $item = $this->createItem(
             $class,
@@ -152,20 +152,31 @@ class AssignableItem extends \DbTestCase
                 $class::getNameField() => __FUNCTION__,
             ]
         );
-        $this->array($item->fields[$field])->isEmpty();
+        $this->array($item->fields['groups_id'])->isEmpty();
+        $this->array($item->fields['groups_id_tech'])->isEmpty();
 
         $DB->insert(
             'glpi_groups_items',
             [
                 'itemtype'  => $class,
                 'items_id'  => $item->getID(),
+                'groups_id' => 1,
+                'type'      => Group_Item::GROUP_TYPE_NORMAL,
+            ],
+        );
+        $DB->insert(
+            'glpi_groups_items',
+            [
+                'itemtype'  => $class,
+                'items_id'  => $item->getID(),
                 'groups_id' => 2,
-                'type'      => $type,
+                'type'      => Group_Item::GROUP_TYPE_TECH,
             ],
         );
 
         $this->boolean($item->getFromDB($item->getID()))->isTrue();
-        $this->array($item->fields[$field])->isEqualTo([2]);
+        $this->array($item->fields['groups_id'])->isEqualTo([1]);
+        $this->array($item->fields['groups_id_tech'])->isEqualTo([2]);
 
         $DB->insert(
             'glpi_groups_items',
@@ -173,57 +184,62 @@ class AssignableItem extends \DbTestCase
                 'itemtype'  => $class,
                 'items_id'  => $item->getID(),
                 'groups_id' => 3,
-                'type'      => $type,
+                'type'      => Group_Item::GROUP_TYPE_NORMAL,
+            ],
+        );
+        $DB->insert(
+            'glpi_groups_items',
+            [
+                'itemtype'  => $class,
+                'items_id'  => $item->getID(),
+                'groups_id' => 4,
+                'type'      => Group_Item::GROUP_TYPE_TECH,
             ],
         );
         $this->boolean($item->getFromDB($item->getID()))->isTrue();
-        $this->array($item->fields[$field])->isEqualTo([2, 3]);
+        $this->array($item->fields['groups_id'])->isEqualTo([1, 3]);
+        $this->array($item->fields['groups_id_tech'])->isEqualTo([2, 4]);
     }
 
     /**
      * An empty item should have the groups_id/groups_id_tech fields initialized as an empty array.
      *
-     * @dataProvider groupAssignableItemtypeProvider
+     * @dataProvider itemtypeProvider
      */
-    public function testGetEmpty(string $class, int $type): void
+    public function testGetEmpty(string $class): void
     {
-        $field = match ($type) {
-            Group_Item::GROUP_TYPE_NORMAL => 'groups_id',
-            Group_Item::GROUP_TYPE_TECH   => 'groups_id_tech',
-        };
-
         $item = new $class();
         $this->boolean($item->getEmpty())->isTrue();
-        $this->array($item->fields[$field])->isEmpty();
+        $this->array($item->fields['groups_id'])->isEmpty();
+        $this->array($item->fields['groups_id_tech'])->isEmpty();
     }
 
     /**
      * Check that adding and updating an item with groups_id/groups_id_tech as an integer still works (minor BC, mainly for API scripts).
      *
-     * @dataProvider groupAssignableItemtypeProvider
+     * @dataProvider itemtypeProvider
      */
-    public function testAddUpdateWithIntGroups(string $class, int $type): void
+    public function testAddUpdateWithIntGroups(string $class): void
     {
         $this->login(); // login to bypass some rights checks (e.g. on domain records)
 
         $input = $this->getMinimalCreationInput($class);
 
-        $field = match ($type) {
-            Group_Item::GROUP_TYPE_NORMAL => 'groups_id',
-            Group_Item::GROUP_TYPE_TECH   => 'groups_id_tech',
-        };
-
         $item = $this->createItem(
             $class,
             $input + [
                 $class::getNameField() => __FUNCTION__,
-                $field                 => 1,
+                'groups_id'            => 1,
+                'groups_id_tech'       => 2,
             ],
-            [$field] // ignore the field as it will be transformed to an array
+            ['groups_id', 'groups_id_tech'] // ignore the fields as it will be transformed to an array
         );
-        $this->array($item->fields[$field])->isEqualTo([1]);
+        $this->array($item->fields['groups_id'])->isEqualTo([1]);
+        $this->array($item->fields['groups_id_tech'])->isEqualTo([2]);
 
-        $this->boolean($item->update(['id' => $item->getID(), $field => 2]))->isTrue();
-        $this->array($item->fields[$field])->isEqualTo([2]);
+        $updated = $item->update(['id' => $item->getID(), 'groups_id' => 3, 'groups_id_tech' => 4]);
+        $this->boolean($updated)->isTrue();
+        $this->array($item->fields['groups_id'])->isEqualTo([3]);
+        $this->array($item->fields['groups_id_tech'])->isEqualTo([4]);
     }
 }

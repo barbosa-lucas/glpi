@@ -3044,7 +3044,7 @@ final class SQLProvider implements SearchProviderInterface
             return $joins;
         }
 
-        if ($to_type === 'Group' && Toolbox::hasTrait($from_referencetype, AssignableItem::class)) {
+        if ($to_type === 'Group' && in_array($from_referencetype, $CFG_GLPI['assignable_types'], true)) {
             $relation_table_alias = 'glpi_groups_items' . $alias_suffix;
             if (!in_array($relation_table_alias, $already_link_tables2, true)) {
                 $already_link_tables2[] = $relation_table_alias;
@@ -3076,7 +3076,7 @@ final class SQLProvider implements SearchProviderInterface
             return $joins;
         }
 
-        if ($from_referencetype === 'Group' && Toolbox::hasTrait($to_type, AssignableItem::class)) {
+        if ($from_referencetype === 'Group' && in_array($to_type, $CFG_GLPI['assignable_types'], true)) {
             $relation_table_alias = 'glpi_groups_items' . $alias_suffix;
             if (!in_array($relation_table_alias, $already_link_tables2, true)) {
                 $already_link_tables2[] = $relation_table_alias;
