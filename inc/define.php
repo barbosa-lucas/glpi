@@ -285,7 +285,6 @@ $CFG_GLPI["assignable_types"] = [
     'SoftwareLicense',
     'Unmanaged',
 ];
-// FIXME: Deprecate these configurations
 $CFG_GLPI["linkuser_types"]         = $CFG_GLPI["assignable_types"];
 $CFG_GLPI["linkgroup_types"]        = $CFG_GLPI["assignable_types"];
 $CFG_GLPI["linkuser_tech_types"]    = $CFG_GLPI["assignable_types"];
