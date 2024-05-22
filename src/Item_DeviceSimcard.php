@@ -148,7 +148,18 @@ class Item_DeviceSimcard extends Item_Devices
                 'short name' => __('Group in charge'),
                 'size'       => 20,
                 'id'         => 24,
-                'datatype'   => 'dropdown',
+                'joinparams' => [
+                    'beforejoin'         => [
+                        'table'              => 'glpi_groups_items',
+                        'joinparams'         => [
+                            'jointype'           => 'itemtype_item',
+                            'condition'          => ['NEWTABLE.type' => Group_Item::GROUP_TYPE_TECH]
+                        ]
+                    ]
+                ],
+                'forcegroupby'     => true,
+                'massiveaction'    => false,
+                'datatype'         => 'dropdown',
                 'dropdown_options' => ['condition' => ['is_assign' => 1]]
             ],
         ];
