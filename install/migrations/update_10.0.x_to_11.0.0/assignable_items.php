@@ -60,6 +60,10 @@ $assignable_itemtypes = [
         'table' => 'glpi_appliances',
         'rightname' => 'appliance'
     ],
+    'Cable' => [
+        'table' => 'glpi_cables',
+        'rightname' => 'cable_management'
+    ],
     'CartridgeItem' => [
         'table' => 'glpi_cartridgeitems',
         'rightname' => 'cartridge'
@@ -111,6 +115,14 @@ $assignable_itemtypes = [
     'NetworkEquipment' => [
         'table' => 'glpi_networkequipments',
         'rightname' => 'networking'
+    ],
+    'PassiveDCEquipment' => [
+        'table' => 'glpi_passivedcequipments',
+        'rightname' => 'datacenter'
+    ],
+    'PDU' => [
+        'table' => 'glpi_pdus',
+        'rightname' => 'datacenter'
     ],
     'Peripheral' => [
         'table' => 'glpi_peripherals',
@@ -171,7 +183,6 @@ foreach ($assignable_itemtypes as $itemtype => $specs) {
 
     $migration->addRight($itemtype_rightname, READ_ASSIGNED, [$itemtype_rightname => READ]);
     $migration->addRight($itemtype_rightname, UPDATE_ASSIGNED, [$itemtype_rightname => UPDATE]);
-
 
     // Add missing `users_id`/`users_id_tech` fields on assignable items
     $migration->addField($itemtype_table, 'users_id', 'fkey');
