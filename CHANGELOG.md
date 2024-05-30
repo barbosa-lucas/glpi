@@ -65,6 +65,7 @@ The present file will list all changes made to the project; according to the
 - The `Computer_Item` class has been replaced by the `\Glpi\Asset\Asset_PeripheralAsset` class.
 - List of network ports in a VLAN form now shows the NetworkPort link in a breadcrumb manner (MyServer > eth0 where MyServer is a link to the computer and eth0 is a link to the port).
 - Running `front/cron.php` or `bin/console` will attempt to check and block execution if running as root.
+- `Group` and `Group in charge` fields for assets may now contain multiple groups.
 
 ### Deprecated
 - Survey URL tags `TICKETCATEGORY_ID` and `TICKETCATEGORY_NAME` are deprecated and replaced by `ITILCATEGORY_ID` and `ITILCATEGORY_NAME` respectively.
@@ -149,6 +150,11 @@ The present file will list all changes made to the project; according to the
 - Usage of `ajax/dropdownValidator.php` with the `users_id_validate` parameter is no longer supported. Use `items_id_target` instead.
 - `Glpi\Dashboard\Filters\AbstractFilter::field()` method has been made protected.
 - Usage of `CommonITILValidation::dropdownValidator()` with the `name` and `users_id_validate` options are no longer supported. Use `prefix` and `itemtype_target`/`items_id_target` respectively instead.
+- Any class added to `$CFG_GLPI['directconnect_types']` must now use the `Glpi\Features\AssignableItem` trait as multi-group support is required.
+- For assets, `groups_id` and `groups_id_tech` fields were changed from integers to arrays and are loaded into the `fields` array after `getFromDB`/`getEmpty`.
+  If reading directly from the DB, you need to query the new linking table `glpi_groups_items`.
+- `Group::getDataItems()` signature changed. The two first parameters `$types` and `$field` were replaced
+  by a unique boolean `$tech` parameter that is used to compute the `$types` and `$field` values automatically.
 
 #### Deprecated
 - Usage of `MAIL_SMTPSSL` and `MAIL_SMTPTLS` constants.
@@ -161,6 +167,7 @@ The present file will list all changes made to the project; according to the
 - Defining "users_id_validate" field without defining "itemtype_target"/"items_id_target" in "CommonITILValidation".
 - Usage of `name` and `users_id_validate` options in `CommonITILValidation::dropdownValidator()`.
 - Usage of `verbatim_value` Twig filter.
+- `linkuser_types`, `linkgroup_types`, `linkuser_tech_types`, `linkgroup_tech_types` configuration entries have been merged in a unique `assignable_types` configuration entry.
 - `Auth::getErr()`
 - `AuthLDAP::dropdownUserDeletedActions()`
 - `AuthLDAP::getOptions()`

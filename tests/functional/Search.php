@@ -807,10 +807,12 @@ class Search extends DbTestCase
         $search_params = ['is_deleted'   => 0,
             'start'        => 0,
             'search'       => 'Search',
-            'criteria'     => [0 => ['field'      => 'view',
-                'searchtype' => 'contains',
-                'value'      => ''
-            ]
+            'criteria'     => [
+                0 => [
+                    'field'      => 'view',
+                    'searchtype' => 'contains',
+                    'value'      => ''
+                ]
             ],
                                                      // group is_notify
             'metacriteria' => [0 => ['link'       => 'AND',
@@ -1898,10 +1900,8 @@ class Search extends DbTestCase
             'users_id',
             'contact',
             'contact_num',
-            'groups_id',
             'date_mod',
             'manufacturers_id',
-            'groups_id_tech',
             'entities_id',
         ];
 

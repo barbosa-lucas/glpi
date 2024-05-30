@@ -114,10 +114,15 @@ class Computer extends DbTestCase
         $this->boolean($printer->getFromDB($printer->getID()))->isTrue();
         unset($in['id']);
         foreach ($in as $k => $v) {
-           // Check the computer new values
-            $this->variable($computer->getField($k))->isEqualTo($v);
-           // Check the printer and test propagation occurs
-            $this->variable($printer->getField($k))->isEqualTo($v, $k);
+            $expected = $v;
+            if (in_array($k, ['groups_id', 'groups_id_tech'], true)) {
+                // These fields are transformed into arrays
+                $expected = [$v];
+            }
+            // Check the computer new values
+            $this->variable($computer->getField($k))->isEqualTo($expected);
+            // Check the printer and test propagation occurs
+            $this->variable($printer->getField($k))->isEqualTo($expected, $k);
         }
 
        //reset values
@@ -134,10 +139,15 @@ class Computer extends DbTestCase
         $this->boolean($printer->getFromDB($printer->getID()))->isTrue();
         unset($in['id']);
         foreach ($in as $k => $v) {
-           // Check the computer new values
-            $this->variable($computer->getField($k))->isEqualTo($v);
-           // Check the printer and test propagation occurs
-            $this->variable($printer->getField($k))->isEqualTo($v);
+            $expected = $v;
+            if (in_array($k, ['groups_id', 'groups_id_tech'], true)) {
+                // These fields are transformed into arrays
+                $expected = $v === 0 ? [] : [$v];
+            }
+            // Check the computer new values
+            $this->variable($computer->getField($k))->isEqualTo($expected);
+            // Check the printer and test propagation occurs
+            $this->variable($printer->getField($k))->isEqualTo($expected);
         }
 
        // Change the computer again
@@ -163,10 +173,17 @@ class Computer extends DbTestCase
         $this->boolean($printer->getFromDB($printer->getID()))->isTrue();
         unset($in2['id']);
         foreach ($in2 as $k => $v) {
+            $expected = $v;
+            $old_value = $in[$k];
+            if (in_array($k, ['groups_id', 'groups_id_tech'], true)) {
+                // These fields are transformed into arrays
+                $expected = $v === 0 ? [] : [$v];
+                $old_value = $old_value === 0 ? [] : [$old_value];
+            }
            // Check the computer new values
-            $this->variable($computer->getField($k))->isEqualTo($v);
+            $this->variable($computer->getField($k))->isEqualTo($expected);
            // Check the printer and test propagation DOES NOT occurs
-            $this->variable($printer->getField($k))->isEqualTo($in[$k]);
+            $this->variable($printer->getField($k))->isEqualTo($old_value);
         }
 
        // Restore configuration
@@ -211,10 +228,15 @@ class Computer extends DbTestCase
         $this->boolean($link->getFromDB($link->getID()))->isTrue();
         unset($in['id']);
         foreach ($in as $k => $v) {
-           // Check the computer new values
-            $this->variable($computer->getField($k))->isEqualTo($v);
-           // Check the printer and test propagation occurs
-            $this->variable($link->getField($k))->isEqualTo($v);
+            $expected = $v;
+            if (in_array($k, ['groups_id', 'groups_id_tech'], true)) {
+                // These fields are transformed into arrays
+                $expected = [$v];
+            }
+            // Check the computer new values
+            $this->variable($computer->getField($k))->isEqualTo($expected);
+            // Check the printer and test propagation occurs
+            $this->variable($link->getField($k))->isEqualTo($expected);
         }
 
        //reset
@@ -248,10 +270,17 @@ class Computer extends DbTestCase
         $this->boolean($link->getFromDB($link->getID()))->isTrue();
         unset($in2['id']);
         foreach ($in2 as $k => $v) {
-           // Check the computer new values
-            $this->variable($computer->getField($k))->isEqualTo($v);
-           // Check the printer and test propagation DOES NOT occurs
-            $this->variable($link->getField($k))->isEqualTo($in[$k]);
+            $old_value = $in[$k];
+            $expected = $v;
+            if (in_array($k, ['groups_id', 'groups_id_tech'], true)) {
+                // These fields are transformed into arrays
+                $expected = [$v];
+                $old_value = [$old_value];
+            }
+            // Check the computer new values
+            $this->variable($computer->getField($k))->isEqualTo($expected);
+            // Check the printer and test propagation DOES NOT occurs
+            $this->variable($link->getField($k))->isEqualTo($old_value);
         }
     }
 
@@ -312,10 +341,15 @@ class Computer extends DbTestCase
         $this->boolean($printer->getFromDB($printer->getID()))->isTrue();
         unset($in['id']);
         foreach ($in as $k => $v) {
-           // Check the computer new values
-            $this->variable($computer->getField($k))->isEqualTo($v);
-           // Check the printer and test propagation occurs
-            $this->variable($printer->getField($k))->isEqualTo($v);
+            $expected = $v;
+            if (in_array($k, ['groups_id', 'groups_id_tech'], true)) {
+                // These fields are transformed into arrays
+                $expected = [$v];
+            }
+            // Check the computer new values
+            $this->variable($computer->getField($k))->isEqualTo($expected);
+            // Check the printer and test propagation occurs
+            $this->variable($printer->getField($k))->isEqualTo($expected);
         }
 
        //create devices
