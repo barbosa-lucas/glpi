@@ -79,7 +79,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     if ($plugin_icon && is_string($plugin_icon)) {
                         $icon = $plugin_icon;
                     }
-                    $item['image'] = $CFG_GLPI['url_base'].'/'.$icon;
+                    $item['image'] = $CFG_GLPI['url_base'] . '/' . $icon;
                     $assets['items'][$index] = $item;
                 }
                 header('Content-Type: application/json');
