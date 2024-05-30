@@ -72,9 +72,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
                 $assets = Impact::searchAsset($itemtype, json_decode($used), $filter, $page);
                 foreach ($assets['items'] as $index => $item) {
-                    $obj = new $itemtype;
-                    $obj->getFromDB($item['id']);
-                    $plugin_icon = Plugin::doHookFunction(Hooks::SET_ITEM_IMPACT_ICON, $obj);
+                    $plugin_icon = Plugin::doHookFunction(Hooks::SET_ITEM_IMPACT_ICON, [
+                        'itemtype' => $itemtype,
+                        'items_id' => $item['id']
+                    ]);
                     if ($plugin_icon && is_string($plugin_icon)) {
                         $icon = $plugin_icon;
                     }
