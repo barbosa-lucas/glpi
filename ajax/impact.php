@@ -49,6 +49,7 @@ Html::header_nocache();
 
 Session::checkLoginUser();
 
+/** @var array $CFG_GLPI */
 global $CFG_GLPI;
 
 switch ($_SERVER['REQUEST_METHOD']) {
