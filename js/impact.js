@@ -3545,7 +3545,7 @@ var GLPIImpact = {
                     }
 
                     var str = '<p class="' + cssClass + '" data-id="' + value['id'] + '" data-type="' + itemtype + '">';
-                    str += '<img src="' + $(GLPIImpact.selectors.sideSearch + " img").attr('src') + '"></img>';
+                    str += `<img src='${value.image}'></img>`;
                     str += value["name"];
 
                     if (isHidden) {
@@ -3553,7 +3553,6 @@ var GLPIImpact = {
                     }
 
                     str += "</p>";
-
                     $(GLPIImpact.selectors.sideSearchResults).append(str);
                 });
 
