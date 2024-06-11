@@ -174,7 +174,7 @@ class GlpiFormEditorController
             // Reset unsaved changes
             this.#updatePreviewButton();
 
-            const save_and_preview_button = $(this.#target).find('[data-glpi-form-editor-save-and-preview-action')
+            const save_and_preview_button = $(this.#target).find('[data-glpi-form-editor-save-and-preview-action');
             if (save_and_preview_button.get(0) === $(document.activeElement).get(0)) {
                 // Open the preview page in a new tab
                 window.open(save_and_preview_button.data('glpi-form-editor-preview-url'), '_blank');
