@@ -6187,12 +6187,12 @@ style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
                 'profiles_id' => self::PROFILE_ADMIN,
                 'name' => 'followup',
                 'rights' => READ | UPDATE | CREATE | PURGE | ITILFollowup::UPDATEALL | ITILFollowup::ADDGROUPTICKET
-                    | ITILFollowup::ADDALLTICKET | ITILFollowup::SEEPRIVATE | ITILFollowup::ADD_AS_OBSERVER,
+                    | ITILFollowup::ADDALLTICKET | ITILFollowup::SEEPRIVATE | ITILFollowup::ADD_AS_OBSERVER | ITILFollowup::ADD_AS_TECHNICIAN,
             ], [
                 'profiles_id' => self::PROFILE_ADMIN,
                 'name' => 'task',
                 'rights' => CommonITILTask::SEEPUBLIC | PURGE | CommonITILTask::UPDATEALL
-                    | CommonITILTask::ADDALLITEM | CommonITILTask::SEEPRIVATE,
+                    | CommonITILTask::ADDALLITEM | CommonITILTask::SEEPRIVATE | CommonITILTask::ADD_AS_OBSERVER | CommonITILTask::ADD_AS_TECHNICIAN,
             ], [
                 'profiles_id' => self::PROFILE_ADMIN,
                 'name' => 'projecttask',
@@ -6484,12 +6484,12 @@ style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
                 'profiles_id' => self::PROFILE_SUPER_ADMIN,
                 'name' => 'followup',
                 'rights' => READ | UPDATE | CREATE | PURGE | ITILFollowup::UPDATEALL | ITILFollowup::ADDGROUPTICKET
-                    | ITILFollowup::ADDALLTICKET | ITILFollowup::SEEPRIVATE | ITILFollowup::ADD_AS_OBSERVER,
+                    | ITILFollowup::ADDALLTICKET | ITILFollowup::SEEPRIVATE | ITILFollowup::ADD_AS_OBSERVER | ITILFollowup::ADD_AS_TECHNICIAN,
             ], [
                 'profiles_id' => self::PROFILE_SUPER_ADMIN,
                 'name' => 'task',
                 'rights' => CommonITILTask::SEEPUBLIC | PURGE | CommonITILTask::UPDATEALL
-                    | CommonITILTask::ADDALLITEM | CommonITILTask::SEEPRIVATE,
+                    | CommonITILTask::ADDALLITEM | CommonITILTask::SEEPRIVATE | CommonITILTask::ADD_AS_OBSERVER | CommonITILTask::ADD_AS_TECHNICIAN,
             ], [
                 'profiles_id' => self::PROFILE_SUPERVISOR,
                 'name' => 'project',
@@ -7359,7 +7359,7 @@ style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
                 'profiles_id' => self::PROFILE_SUPERVISOR,
                 'name' => 'followup',
                 'rights' => READ | UPDATE | CREATE | PURGE | ITILFollowup::UPDATEALL | ITILFollowup::ADDGROUPTICKET
-                    | ITILFollowup::ADDALLTICKET | ITILFollowup::SEEPRIVATE | ITILFollowup::ADD_AS_OBSERVER,
+                    | ITILFollowup::ADDALLTICKET | ITILFollowup::SEEPRIVATE | ITILFollowup::ADD_AS_OBSERVER | ITILFollowup::ADD_AS_TECHNICIAN,
             ], [
                 'profiles_id' => self::PROFILE_SUPERVISOR,
                 'name' => 'task',

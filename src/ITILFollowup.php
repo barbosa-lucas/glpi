@@ -65,6 +65,7 @@ class ITILFollowup extends CommonDBChild
      * @var integer
      */
     const ADD_AS_OBSERVER = 16384;
+    const ADD_AS_TECHNICIAN = 32768;
 
     public static $itemtype = 'itemtype';
     public static $items_id = 'items_id';
@@ -909,15 +910,18 @@ class ITILFollowup extends CommonDBChild
         }
 
         $values[self::ADDGROUPTICKET]
-                                 = ['short' => __('Add followup (associated groups)'),
-                                     'long'  => __('Add a followup to tickets of associated groups')
-                                 ];
-        $values[self::UPDATEMY]    = __('Update followups (author)');
-        $values[self::ADDMYTICKET] = ['short' => __('Add followup (requester)'),
-            'long'  => __('Add a followup to tickets (requester)')
+                                     = ['short' => __('Add (associated groups)'),
+                                         'long'  => __('Add to tickets of associated groups')
+                                     ];
+        $values[self::UPDATEMY]    = __('Update (author)');
+        $values[self::ADDMYTICKET] = ['short' => __('Add (requester)'),
+            'long'  => __('Add to tickets (requester)')
         ];
-        $values[self::ADD_AS_OBSERVER] = ['short' => __('Add followup (observer)'),
-            'long'  => __('Add a followup to tickets (observer)')
+        $values[self::ADD_AS_OBSERVER] = ['short' => __('Add (observer)'),
+            'long'  => __('Add to tickets (observer)')
+        ];
+        $values[self::ADD_AS_TECHNICIAN] = ['short' => __('Add (technician)'),
+            'long'  => __('Add to tickets (technician)')
         ];
         $values[self::SEEPUBLIC]   = __('See public ones');
 
