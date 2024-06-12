@@ -52,6 +52,11 @@ describe('Form preview', () => {
 
         // Save the form and check the preview button
         cy.findByRole('button', { 'name': 'Save' }).click({ force: true });
+        cy.findByRole('alert')
+            .should('contain.text', 'Item successfully updated')
+            .within(() => {
+                cy.findByRole('button', { 'name': 'Close' }).click();
+            });
         cy.findByRole('link', { 'name': 'Preview' }).should('exist');
     }
 
