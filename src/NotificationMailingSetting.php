@@ -57,6 +57,14 @@ class NotificationMailingSetting extends NotificationSetting
         return Notification_NotificationTemplate::MODE_MAIL;
     }
 
+    public function defineTabs($options = [])
+    {
+        $ong = parent::defineTabs($options);
+        $this->addStandardTab('Log', $ong, $options);
+
+        return $ong;
+    }
+
 
     public function showFormConfig($options = [])
     {

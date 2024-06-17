@@ -233,6 +233,11 @@ class Log extends CommonDBTM
         $old_value        = $changes[1];
         $new_value        = $changes[2];
 
+        if (strpos($old_value, 'smtp') !== false) {
+            $itemtype = NotificationMailingSetting::class;
+            $itemtype_link = '';
+        }
+
         if ($uid = Session::getLoginUserID(false)) {
             if (is_numeric($uid)) {
                 $username = User::getNameForLog($uid);
