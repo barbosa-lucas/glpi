@@ -233,7 +233,10 @@ class Log extends CommonDBTM
         $old_value        = $changes[1];
         $new_value        = $changes[2];
 
-        if (strpos($old_value, 'smtp') !== false) {
+        if (
+            strpos($old_value, 'smtp') !== false
+            || in_array(explode(' ', $old_value)[0], NotificationMailingSetting::getFormInputForLog())
+        ) {
             $itemtype = NotificationMailingSetting::class;
             $itemtype_link = '';
         }
