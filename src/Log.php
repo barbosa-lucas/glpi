@@ -141,6 +141,10 @@ class Log extends CommonDBTM
             }
             $changes = [];
 
+            if ($real_type == NotificationMailingSetting::class) {
+                $changes = [0, addslashes($oldval ?? ''), addslashes($values[$key] ?? '')];
+            }
+
            // Parsing $SEARCHOPTION to find changed field
             foreach ($searchopt as $key2 => $val2) {
                 if (!isset($val2['table'])) {
@@ -232,14 +236,6 @@ class Log extends CommonDBTM
         $id_search_option = $changes[0];
         $old_value        = $changes[1];
         $new_value        = $changes[2];
-
-        if (
-            strpos($old_value, 'smtp') !== false
-            || in_array(explode(' ', $old_value)[0], NotificationMailingSetting::getFormInputForLog())
-        ) {
-            $itemtype = NotificationMailingSetting::class;
-            $itemtype_link = '';
-        }
 
         if ($uid = Session::getLoginUserID(false)) {
             if (is_numeric($uid)) {
