@@ -65,7 +65,6 @@ class ITILFollowup extends CommonDBChild
      * @var integer
      */
     const ADD_AS_OBSERVER = 16384;
-    const ADD_AS_TECHNICIAN = 32768;
 
     public static $itemtype = 'itemtype';
     public static $items_id = 'items_id';
@@ -919,9 +918,6 @@ class ITILFollowup extends CommonDBChild
         ];
         $values[self::ADD_AS_OBSERVER] = ['short' => __('Add (observer)'),
             'long'  => __('Add to tickets (observer)')
-        ];
-        $values[self::ADD_AS_TECHNICIAN] = ['short' => __('Add (technician)'),
-            'long'  => __('Add to tickets (technician)')
         ];
         $values[self::SEEPUBLIC]   = __('See public ones');
 
