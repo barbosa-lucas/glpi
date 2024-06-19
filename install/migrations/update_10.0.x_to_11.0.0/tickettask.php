@@ -37,7 +37,7 @@
  * @var \Migration $migration
  */
 
-// new right value for itilfollowup
+// new right values for task
 $migration->addRight('tickettask', CommonITILTask::ADDMYTICKET | CommonITILTask::ADDGROUPTICKET | CommonITILTask::ADD_AS_OBSERVER | CommonITILTask::ADD_AS_TECHNICIAN, [
     'ticket' => Ticket::OWN
 ]);

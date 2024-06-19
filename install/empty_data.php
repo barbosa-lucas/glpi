@@ -6488,7 +6488,7 @@ style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
             ], [
                 'profiles_id' => self::PROFILE_SUPER_ADMIN,
                 'name' => 'task',
-                'rights' => CommonITILTask::SEEPUBLIC | CommonITILTask::SEEPRIVATE | PURGE | CommonITILTask::UPDATEALL | CommonITILTask::UPDATEMY 
+                'rights' => CommonITILTask::SEEPUBLIC | CommonITILTask::SEEPRIVATE | PURGE | CommonITILTask::UPDATEALL | CommonITILTask::UPDATEMY
                     | CommonITILTask::ADDALLITEM | CommonITILTask::ADDMYTICKET | CommonITILTask::ADDGROUPTICKET | CommonITILTask::ADD_AS_OBSERVER | CommonITILTask::ADD_AS_TECHNICIAN,
             ], [
                 'profiles_id' => self::PROFILE_SUPERVISOR,

@@ -574,7 +574,7 @@ class TicketTask extends DbTestCase
     /**
      * Test that the user can update his own task
      * Right : TicketTask::UPDATEMY
-     * 
+     *
      * @return void
      */
     public function testUpdateMyTask()
@@ -681,11 +681,11 @@ class TicketTask extends DbTestCase
 
     /**
      * Test that the user can create a task in function of his status
-     * 
+     *
      * @param string $profileName
      * @param integer $right
      * @param string $ticketUserType
-     * 
+     *
      * @return void
      */
     private function createTaskAndAssertCanCreate($profileName, $right, $ticketUserType)
@@ -793,7 +793,7 @@ class TicketTask extends DbTestCase
 
     /**
      * Test that the user can create a task on his ticket
-     * 
+     *
      * @return void
      */
     public function testAddOnMyTicket()
@@ -803,7 +803,7 @@ class TicketTask extends DbTestCase
 
     /**
      * Test that the user can create a task on ticket where he is the observer
-     * 
+     *
      * @return void
      */
     public function testAddAsObserver()
@@ -813,7 +813,7 @@ class TicketTask extends DbTestCase
 
     /**
      * Test that the user can create a task on ticket where he is assigned
-     * 
+     *
      * @return void
      */
     public function testAddAsTechnician()
@@ -823,7 +823,7 @@ class TicketTask extends DbTestCase
 
     /**
      * Test that the user can create a task on ticket where an associated group is actor
-     * 
+     *
      * @return void
      */
     public function testAddAsGroup()
