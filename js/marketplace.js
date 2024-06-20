@@ -54,18 +54,32 @@ $(document).ready(function() {
             .removeClass()
             .addClass('fas fa-spinner fa-spin');
 
-        if (action === 'download_plugin'
-          || action === 'update_plugin') {
-            followDownloadProgress(button);
+        if (action === 'download_plugin' || action === 'update_plugin') {
+            // Specific case for plugin replacement
+            $.post(ajax_url, {
+                'action': 'suspend_plugin',
+                'key': plugin_key
+            }).done(function() {
+                followDownloadProgress(button);
+                ajax_done = false;
+                $.post(ajax_url, {
+                    'action': action,
+                    'key': plugin_key
+                }).done(function(html) {
+                    ajax_done = true;
+
+                    buttons.html(html);
+                    displayAjaxMessageAfterRedirect();
+                    addTooltips();
+                });
+            });
+            return;
         }
 
-        ajax_done = false;
         $.post(ajax_url, {
             'action': action,
             'key': plugin_key
         }).done(function(html) {
-            ajax_done = true;
-
             if (html.indexOf("cleaned") !== -1 && installed) {
                 li.remove();
             } else {
