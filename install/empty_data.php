@@ -6191,8 +6191,8 @@ style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
             ], [
                 'profiles_id' => self::PROFILE_ADMIN,
                 'name' => 'task',
-                'rights' => CommonITILTask::SEEPUBLIC | PURGE | CommonITILTask::UPDATEALL
-                    | CommonITILTask::ADDALLITEM | CommonITILTask::SEEPRIVATE,
+                'rights' => CommonITILTask::SEEPUBLIC | CommonITILTask::SEEPRIVATE | PURGE | CommonITILTask::UPDATEALL | CommonITILTask::UPDATEMY
+                    | CommonITILTask::ADDALLITEM  | CommonITILTask::ADDMYTICKET | CommonITILTask::ADDGROUPTICKET | CommonITILTask::ADD_AS_OBSERVER | CommonITILTask::ADD_AS_TECHNICIAN,
             ], [
                 'profiles_id' => self::PROFILE_ADMIN,
                 'name' => 'projecttask',
@@ -6488,8 +6488,8 @@ style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
             ], [
                 'profiles_id' => self::PROFILE_SUPER_ADMIN,
                 'name' => 'task',
-                'rights' => CommonITILTask::SEEPUBLIC | PURGE | CommonITILTask::UPDATEALL
-                    | CommonITILTask::ADDALLITEM | CommonITILTask::SEEPRIVATE,
+                'rights' => CommonITILTask::SEEPUBLIC | CommonITILTask::SEEPRIVATE | PURGE | CommonITILTask::UPDATEALL | CommonITILTask::UPDATEMY
+                    | CommonITILTask::ADDALLITEM | CommonITILTask::ADDMYTICKET | CommonITILTask::ADDGROUPTICKET | CommonITILTask::ADD_AS_OBSERVER | CommonITILTask::ADD_AS_TECHNICIAN,
             ], [
                 'profiles_id' => self::PROFILE_SUPERVISOR,
                 'name' => 'project',
@@ -7072,8 +7072,8 @@ style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
             ], [
                 'profiles_id' => self::PROFILE_TECHNICIAN,
                 'name' => 'task',
-                'rights' => CommonITILTask::SEEPUBLIC | PURGE | CommonITILTask::UPDATEALL
-                    | CommonITILTask::ADDALLITEM | CommonITILTask::SEEPRIVATE,
+                'rights' => CommonITILTask::SEEPUBLIC | CommonITILTask::SEEPRIVATE | PURGE | CommonITILTask::UPDATEALL | CommonITILTask::UPDATEMY
+                    | CommonITILTask::ADDALLITEM | CommonITILTask::ADDMYTICKET | CommonITILTask::ADD_AS_OBSERVER | CommonITILTask::ADD_AS_TECHNICIAN | CommonITILTask::ADDGROUPTICKET,
             ], [
                 'profiles_id' => self::PROFILE_SELF_SERVICE,
                 'name' => 'project',
@@ -7363,8 +7363,8 @@ style="color: #8b8c8f; font-weight: bold; text-decoration: underline;"&gt;
             ], [
                 'profiles_id' => self::PROFILE_SUPERVISOR,
                 'name' => 'task',
-                'rights' => CommonITILTask::SEEPUBLIC | PURGE | CommonITILTask::UPDATEALL
-                    | CommonITILTask::ADDALLITEM | CommonITILTask::SEEPRIVATE,
+                'rights' => CommonITILTask::SEEPUBLIC | CommonITILTask::SEEPRIVATE | PURGE | CommonITILTask::UPDATEALL | CommonITILTask::UPDATEMY
+                    | CommonITILTask::ADDALLITEM | CommonITILTask::ADDMYTICKET | CommonITILTask::ADD_AS_OBSERVER | CommonITILTask::ADD_AS_TECHNICIAN | CommonITILTask::ADDGROUPTICKET,
             ], [
                 'profiles_id' => self::PROFILE_SUPERVISOR,
                 'name' => 'queuednotification',
