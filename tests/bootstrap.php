@@ -36,6 +36,9 @@
 use Glpi\Application\ErrorHandler;
 use Glpi\Cache\CacheManager;
 use Glpi\Cache\SimpleCache;
+use Glpi\Config\ConfigProviderWithRequestInterface;
+use Glpi\Config\LegacyConfigProviders;
+use Glpi\Kernel\Kernel;
 use Glpi\OAuth\Server;
 use Glpi\Socket;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -62,7 +65,10 @@ define('TU_PASS', 'PhpUnit_4');
 
 global $CFG_GLPI, $GLPI_CACHE;
 
-include(GLPI_ROOT . "/inc/based_config.php");
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+$kernel = new Kernel('testing');
+$kernel->loadCommonGlobalConfig();
 
 if (!file_exists(GLPI_CONFIG_DIR . '/config_db.php')) {
     die("\nConfiguration file for tests not found\n\nrun: php bin/console database:install --env=testing ...\n\n");
@@ -100,11 +106,6 @@ include_once __DIR__ . '/InventoryTestCase.php';
 include_once __DIR__ . '/functional/CommonITILRecurrent.php';
 include_once __DIR__ . '/functional/Glpi/ContentTemplates/Parameters/AbstractParameters.php';
 include_once __DIR__ . '/functional/AbstractRightsDropdown.php';
-
-// check folder exists instead of class_exists('\GuzzleHttp\Client'), to prevent global includes
-if (file_exists(__DIR__ . '/../vendor/autoload.php') && !file_exists(__DIR__ . '/../vendor/guzzlehttp/guzzle')) {
-    die("\nDevelopment dependencies not found\n\nrun: composer install -o\n\n");
-}
 
 function loadDataset()
 {

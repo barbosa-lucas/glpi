@@ -34,6 +34,9 @@
 
 namespace Glpi\Kernel;
 
+use Glpi\Config\ConfigProviderConsoleExclusiveInterface;
+use Glpi\Config\ConfigProviderWithRequestInterface;
+use Glpi\Config\LegacyConfigProviders;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
@@ -44,6 +47,12 @@ final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
+    public function __construct(?string $env = null)
+    {
+        $env ??= $_ENV['GLPI_ENVIRONMENT_TYPE'] ?? $_SERVER['GLPI_ENVIRONMENT_TYPE'] ?? 'production';
+        parent::__construct($env, $env === 'production');
+    }
+
     public function getProjectDir(): string
     {
         return \dirname(__DIR__, 3);
@@ -52,7 +61,7 @@ final class Kernel extends BaseKernel
     public function getCacheDir(): string
     {
         // TODO Use GLPI_CACHE_DIR
-        return $this->getProjectDir() . '/files/_cache/symfony';
+        return $this->getProjectDir() . '/files/_cache/symfony/' . $this->environment . '/';
     }
 
     public function getLogDir(): string
@@ -68,11 +77,39 @@ final class Kernel extends BaseKernel
         ];
     }
 
+    public function loadCommonGlobalConfig(): void
+    {
+        $this->boot();
+
+        /** @var LegacyConfigProviders $providers */
+        $providers = $this->container->get(LegacyConfigProviders::class);
+        foreach ($providers->getProviders() as $provider) {
+            if ($provider instanceof ConfigProviderWithRequestInterface) {
+                continue;
+            }
+            $provider->execute();
+        }
+    }
+
+    public function loadCliOnlyConfig(): void
+    {
+        $this->boot();
+
+        /** @var LegacyConfigProviders $providers */
+        $providers = $this->container->get(LegacyConfigProviders::class);
+        foreach ($providers->getProviders() as $provider) {
+            if ($provider instanceof ConfigProviderConsoleExclusiveInterface) {
+                $provider->execute();
+            }
+        }
+    }
+
     protected function configureContainer(ContainerConfigurator $container): void
     {
         $projectDir = $this->getProjectDir();
 
         $container->import($projectDir . '/dependency_injection/services.php', 'php');
+        $container->import($projectDir . '/dependency_injection/legacyConfigProviders.php', 'php');
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void
