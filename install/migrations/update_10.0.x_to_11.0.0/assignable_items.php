@@ -195,10 +195,10 @@ foreach ($assignable_itemtypes as $itemtype => $specs) {
         $DB->insert('glpi_groups_items', new \Glpi\DBAL\QuerySubQuery([
             'SELECT' => [
                 new \Glpi\DBAL\QueryExpression('NULL', 'id'),
-                new \Glpi\DBAL\QueryExpression('1', 'type'),
-                'id AS items_id',
                 'groups_id',
-                new \Glpi\DBAL\QueryExpression($DB::quoteValue($itemtype), 'itemtype')
+                new \Glpi\DBAL\QueryExpression($DB::quoteValue($itemtype), 'itemtype'),
+                'id AS items_id',
+                new \Glpi\DBAL\QueryExpression('1', 'type'),
             ],
             'FROM'   => $itemtype_table,
             'WHERE'  => [
@@ -210,10 +210,10 @@ foreach ($assignable_itemtypes as $itemtype => $specs) {
         $DB->insert('glpi_groups_items', new \Glpi\DBAL\QuerySubQuery([
             'SELECT' => [
                 new \Glpi\DBAL\QueryExpression('NULL', 'id'),
-                new \Glpi\DBAL\QueryExpression('2', 'type'),
+                'groups_id',
+                new \Glpi\DBAL\QueryExpression($DB::quoteValue($itemtype), 'itemtype'),
                 'id AS items_id',
-                'groups_id_tech AS groups_id',
-                new \Glpi\DBAL\QueryExpression($DB::quoteValue($itemtype), 'itemtype')
+                new \Glpi\DBAL\QueryExpression('2', 'type'),
             ],
             'FROM'   => $itemtype_table,
             'WHERE'  => [
