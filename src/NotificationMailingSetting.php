@@ -57,6 +57,29 @@ class NotificationMailingSetting extends NotificationSetting
         return Notification_NotificationTemplate::MODE_MAIL;
     }
 
+    public function defineTabs($options = [])
+    {
+        $ong = parent::defineTabs($options);
+        $this->addStandardTab('Log', $ong, $options);
+
+        return $ong;
+    }
+
+    public static function getFormInputForLog()
+    {
+        return [
+            'admin_email',
+            'admin_email_name',
+            'from_email',
+            'from_email_name',
+            'replyto_email',
+            'replyto_email_name',
+            'noreply_email',
+            'noreply_email_name',
+            'attach_ticket_documents_to_mail',
+            'mailing_signature',
+        ];
+    }
 
     public function showFormConfig($options = [])
     {

@@ -141,6 +141,10 @@ class Log extends CommonDBTM
             }
             $changes = [];
 
+            if ($real_type == NotificationMailingSetting::class) {
+                $changes = [0, addslashes($oldval ?? ''), addslashes($values[$key] ?? '')];
+            }
+
            // Parsing $SEARCHOPTION to find changed field
             foreach ($searchopt as $key2 => $val2) {
                 if (!isset($val2['table'])) {

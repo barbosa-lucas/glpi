@@ -3777,12 +3777,20 @@ HTML;
      */
     private function logConfigChange(string $context, string $name, string $newvalue, string $oldvalue): void
     {
+
+        if (
+            strpos($name, 'smtp') !== false
+            || in_array($name, NotificationMailingSetting::getFormInputForLog())
+        ) {
+            $item = new NotificationMailingSetting();
+            $item = $item->getById(1);
+        }
         $glpi_key = new GLPIKey();
         if ($glpi_key->isConfigSecured($context, $name)) {
             $newvalue = $oldvalue = '********';
         }
         $oldvalue = $name . ($context !== 'core' ? ' (' . $context . ') ' : ' ') . $oldvalue;
-        Log::constructHistory($this, ['value' => $oldvalue], ['value' => $newvalue]);
+        Log::constructHistory($item ?? $this, ['value' => $oldvalue], ['value' => $newvalue]);
     }
 
     /**
