@@ -33,9 +33,12 @@
  * ---------------------------------------------------------------------
  */
 
+ /** @var \DBmysql $DB */
+global $DB;
+
 $query = "UPDATE `glpi_logs` SET `itemtype` = 'NotificationMailingSetting' WHERE `old_value` like '%smtp%'";
 foreach (NotificationMailingSetting::getFormInputForLog() as $field) {
-    $query .= " OR `old_value` like '%".$field."%'";
+    $query .= " OR `old_value` like '%" . $field . "%'";
 }
 $query .= ";";
 
