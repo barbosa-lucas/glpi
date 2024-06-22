@@ -1545,7 +1545,7 @@ var GLPIImpact = {
                     tooltip.append(table);
                     let targetData = target.data();
                     let propname = '';
-                    let fields = ['label', 'type', 'status', 'comment'];
+                    let fields = ['label', 'type', 'criticity', 'status', 'comment'];
                     // loop through target data
                     for (let prop in targetData) {
 
@@ -1563,6 +1563,9 @@ var GLPIImpact = {
                         let tdValue = tr.insertCell();
                         if (prop == 'label') {
                             propname = __("Name");
+                        }
+                        if (prop == 'criticity') {
+                            propname = _n("Business criticity", "Business criticities", 1);
                         }
                         if (prop == 'type') {
                             propname = _n("Type", "Types", 1);
